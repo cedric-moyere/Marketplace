@@ -21,7 +21,7 @@ export const getUser = (email, password) => {
 }
 export const addUser = body => {
     return new Promise((onSuccess, onFail) => { 
-        axios.post('/api/users/add', body)
+        axios.post('/api/auth/signup', body)
             .then((response, error) => {
                 if (error) { return onFail(`error adding new post : ${error}`)}
                 onSuccess(`new user successfully created ${response}`)

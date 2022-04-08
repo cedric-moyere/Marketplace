@@ -37,7 +37,7 @@ const Checkout = () => {
   }, [formValues]);
 
   React.useEffect(() => {
-    handleAuthentication();
+    handleAuthentication(user);
   }, [user]);
 
   const handleDeliveryOnChange = (e, value) => {

@@ -36,7 +36,7 @@ const Header = () => {
 	const quantity = items.length > 0 ? items.length : ''
 
 
-	React.useEffect(() => handleAuthentication(), [current])
+	React.useEffect(() => handleAuthentication(current), [current])
 	
 	return(<nav className="navbar d-flex p-md-0 navbar-expand-lg navbar-light bg-light border-bottom">
 			<div className="container-fluid">

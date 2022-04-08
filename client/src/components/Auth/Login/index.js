@@ -33,9 +33,9 @@ const Login = ({ history }) => {
 	
  	const handleOnSubmit = async (e) => { 
 		e.preventDefault()
-		const user = await handleUserLogin( email, password)
+		const user = await handleUserLogin(email, password)
 		  if (user) { 
-			  setTimeout(() => history.push('/'), 2000)
+			  history.push('/')
 		  }
     }
   return(<>

@@ -13,7 +13,7 @@ function Success({ history }) {
   const { handleAuthentication } = useAuthentication(dispatch);
   function getUserProfile() {
     return new Promise((resolve) => {
-      handleAuthentication();
+      handleAuthentication(user);
       resolve();
     });
   }

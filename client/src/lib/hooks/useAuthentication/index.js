@@ -21,25 +21,20 @@ const useAuthentication = (dispatch) => {
     }
     function handleUserLogin(email, password) { 
         return new Promise(async (resolve) => {
-            const currentUser = await app.currentUser
-            // retrieve user profile
             getUser(email, password)
                 .then(userProfile => { 
-                    dispatch(handleLogin(userProfile))
-                    resolve(currentUser)
+                    dispatch(handleLogin({email, password}))
+                    resolve(userProfile)
                 })
                 .catch(err => dispatch(handleAuthenticationError(err)))
             })
     } 
     async function handleUserLogout() { 
-        app.currentUser?.logOut()
-            .then(() => dispatch(handleLogout()))
-            .catch(err => console.log(err))
+        dispatch(handleLogout())
     }
-    async function handleAuthentication() { 
-        const currentUser = await app.currentUser
-        getUser(currentUser?.email)
-            .then(userProfile => !!currentUser && dispatch(handleLogin(userProfile)))
+    async function handleAuthentication(user) {
+        getUser(user?.email, user?.password)
+            .then(userProfile => dispatch(handleLogin(userProfile)))
             .catch(err =>  dispatch(handleAuthenticationError(err)))
     }
     return {
