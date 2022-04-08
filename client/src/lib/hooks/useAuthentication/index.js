@@ -20,17 +20,13 @@ const useAuthentication = (dispatch) => {
             })
     }
     function handleUserLogin(email, password) { 
-        return new Promise(resolve => {
-            app.logIn(Realm.Credentials.emailPassword(email, password))
-                .then(async () => { 
-                    // verify current user 
-                    const currentUser = await app.currentUser
-                    // retrieve user profile
-                    getUser(currentUser.email)
-                        .then(userProfile => { 
-                            dispatch(handleLogin(userProfile))
-                                resolve(currentUser)
-                        }) 
+        return new Promise(async (resolve) => {
+            const currentUser = await app.currentUser
+            // retrieve user profile
+            getUser(email, password)
+                .then(userProfile => { 
+                    dispatch(handleLogin(userProfile))
+                    resolve(currentUser)
                 })
                 .catch(err => dispatch(handleAuthenticationError(err)))
             })

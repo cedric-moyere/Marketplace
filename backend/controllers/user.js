@@ -17,7 +17,6 @@ exports.signup = (req, res, next) => {
   };
 
   exports.login = (req, res, next) => {
-    console.log('email : ' + req.body.email + " - password" + req.body.password);
     User.findOne({ email: req.body.email })
       .then(user => {
         if (!user) {
@@ -33,7 +32,7 @@ exports.signup = (req, res, next) => {
               token: jwt.sign(
                 { userId: user._id },
                 'RANDOM_TOKEN_SECRET',
-                { expiresIn: '1h' }
+                { expiresIn: '24h' }
               )
             });
           })

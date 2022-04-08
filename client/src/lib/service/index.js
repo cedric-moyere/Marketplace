@@ -10,9 +10,9 @@ export const getProducts = () => {
         })
     })
 }
-export const getUser = (email) => {
+export const getUser = (email, password) => {
     return new Promise((onSuccess, onFail) => {
-        axios.post('/api/auth/login', email)
+        axios.post('/api/auth/login', { email, password })
             .then((response, error) => {
                 if (!response || error) { return onFail(`Response failure ${error}`) }
                 onSuccess(response.data)
