@@ -3,7 +3,13 @@ import { loadStripe } from '@stripe/stripe-js';
 
 export const getProducts = () => {
     return new Promise((onSuccess, onFail) => {
-        axios.get('/api/products')
+        axios.get('/api/products', {
+            headers: {
+                'authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjMzNWE3NjM4ZWE5M2ZhODI5NjdlNGMiLCJpYXQiOjE2NDk0MzA1MDgsImV4cCI6MTY0OTUxNjkwOH0.AJTBgCWw-RPTv2fjlTcaR_DehND81DRLfXsbKQerTqU',
+                'Accept' : 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
             .then((response, error) => {
                 if (!response || error) { return onFail(`Response failure ${error}`) }
                 onSuccess(response)
