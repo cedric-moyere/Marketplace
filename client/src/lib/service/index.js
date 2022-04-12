@@ -2,13 +2,10 @@ import axios from "axios"
 import { loadStripe } from '@stripe/stripe-js'; 
 
 export const getProducts = () => {
+    const user = JSON.parse(localStorage.getItem('user'));
     return new Promise((onSuccess, onFail) => {
         axios.get('/api/products', {
-            headers: {
-                'authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjMzNWE3NjM4ZWE5M2ZhODI5NjdlNGMiLCJpYXQiOjE2NDk0MzA1MDgsImV4cCI6MTY0OTUxNjkwOH0.AJTBgCWw-RPTv2fjlTcaR_DehND81DRLfXsbKQerTqU',
-                'Accept' : 'application/json',
-                'Content-Type': 'application/json'
-            }
+            headers: { 'x-access-token': user.token }
         })
             .then((response, error) => {
                 if (!response || error) { return onFail(`Response failure ${error}`) }
@@ -21,6 +18,7 @@ export const getUser = (email, password) => {
         axios.post('/api/auth/login', { email, password })
             .then((response, error) => {
                 if (!response || error) { return onFail(`Response failure ${error}`) }
+                localStorage.setItem("user", JSON.stringify(response.data));
                 onSuccess(response.data)
             }).catch(err => onFail(err))
     })

@@ -29,7 +29,8 @@ const useAuthentication = (dispatch) => {
                 .catch(err => dispatch(handleAuthenticationError(err)))
             })
     } 
-    async function handleUserLogout() { 
+    async function handleUserLogout() {
+        localStorage.removeItem("user")
         dispatch(handleLogout())
     }
     async function handleAuthentication(user) {
