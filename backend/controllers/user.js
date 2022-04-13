@@ -7,10 +7,22 @@ exports.signup = (req, res, next) => {
       .then(hash => {
         const user = new User({
           email: req.body.email,
-          password: hash
+          password: hash,
+          firstName: req.body.first
         });
         user.save()
-          .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
+          .then(usr => {
+            res.status(201).json({
+              userId: usr._id,
+              token: jwt.sign(
+                { userId: usr._id },
+                'RANDOM_TOKEN_SECRET',
+                { expiresIn: '24h' }
+              ),
+              first: usr.firstName,
+              role: usr.role
+            })
+          })
           .catch(error => res.status(400).json({ error }));
       })
       .catch(error => res.status(500).json({ error }));
@@ -33,7 +45,9 @@ exports.signup = (req, res, next) => {
                 { userId: user._id },
                 'RANDOM_TOKEN_SECRET',
                 { expiresIn: '24h' }
-              )
+              ),
+              first: user.firstName,
+              role: user.role
             });
           })
           .catch(error => res.status(500).json({ error }));

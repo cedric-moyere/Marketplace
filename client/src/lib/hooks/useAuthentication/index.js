@@ -6,24 +6,18 @@ import { handleLogin, handleAuthenticationError, handleLogout } from '../../stat
 const useAuthentication = (dispatch) => { 
     function handleUserRegistration(user) { 
         return new Promise(resolve => { 
-            app.emailPasswordAuth
-                .registerUser(user.email, user.password)
-                .then(async () => { 
-                    app.logIn(Realm.Credentials.emailPassword(user.email, user.password))
-                        .then(() => { 
-                            addUser(user)
-                            dispatch(handleLogin(user))
-                            resolve(user)  
-                        })
+            addUser(user)
+                .then(usr => {
+                    dispatch(handleLogin(usr))
+                    resolve(usr)
                 })
-                .catch(err => dispatch(handleAuthenticationError(err)))
-            })
+        }).catch(err => dispatch(handleAuthenticationError(err)))
     }
     function handleUserLogin(email, password) { 
         return new Promise(async (resolve) => {
             getUser(email, password)
                 .then(userProfile => { 
-                    dispatch(handleLogin({email, password}))
+                    dispatch(handleLogin(userProfile))
                     resolve(userProfile)
                 })
                 .catch(err => dispatch(handleAuthenticationError(err)))

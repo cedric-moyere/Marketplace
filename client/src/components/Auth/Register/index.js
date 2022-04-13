@@ -28,7 +28,7 @@ const defaultValues = {
 	password: '' ,
 	confirm_password: '' 
 }
-const options = [ 'Uzbekistan', 'Russia', 'United States', 'India', 'Afganistan']
+const options = [ 'France', 'Uzbekistan', 'Russia', 'United States', 'India', 'Afganistan']
 const Register = ({ history }) => { 
 	const dispatch = useDispatch()
 	const { current, error } = useSelector(state => state.user);
