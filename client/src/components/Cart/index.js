@@ -1,4 +1,4 @@
-	import React, { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useSelector } from "react-redux";
 import Layout from './Layout'
 import Row from "./Row";
@@ -15,7 +15,7 @@ const Cart = () => {
 	<>
 	<Layout>
 		{items.length === 0 && <div className="d-flex align-items-center ml-3" style={{ fontSize: '22px'}}><p>Your Cart is Empty</p></div>}
-				{items.map(item => <Row key={item.id} {...item} />)}	
+		{items.map(item => <Row key={item.id} {...item} />)}
 	</Layout>
 	</>
 )}

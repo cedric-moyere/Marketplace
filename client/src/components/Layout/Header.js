@@ -8,7 +8,7 @@ const UserLogin = ({ user  }) => {
 	const { handleUserLogout } = useAuthentication(dispatch)
 	const logout = async () => { 
 		handleUserLogout()
-		// setTimeout(() => window.location.reload(), 1000)
+		setTimeout(() => window.location.reload(), 1000)
 	}
 	return (
 		<>

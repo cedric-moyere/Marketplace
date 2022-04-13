@@ -1,11 +1,11 @@
 
-import React, {  useEffect} from 'react'
+import React, { useEffect } from 'react'
 const styles = {
   height: '100vh',
   fontSize: 20
 }
 function Cancel({ history }) {
-  useEffect(() => setTimeout(() => history.push('/cart'), 3000))
+  useEffect(() => setTimeout(() => history.push('/cart'), 1000))
   return (
     <>
       <div style={styles} className='d-flex justify-content-center align-items-center'>

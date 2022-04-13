@@ -27,19 +27,19 @@ const Login = ({ history }) => {
   const dispatch = useDispatch()
   const { current, error } = useSelector(state => ({ ...state.user }));
   const { formValues, validate, handleOnChange, isValid } = useFormValidation({ formName: 'login', defaultValues: defaultValues })
-	const {  email, password } = formValues['login'] ?? {}
+  const { email, password } = formValues['login'] ?? {}
   const { handleUserLogin } = useAuthentication(dispatch)
   React.useEffect(() => validate(formValues['login'] ?? {}), [formValues, handleOnChange]) 
 	
- 	const handleOnSubmit = async (e) => { 
+	const handleOnSubmit = async (e) => { 
 		e.preventDefault()
-    let email = document.getElementsByName('email')[0].value
-    let password = document.getElementsByName('password')[0].value
-		const user = await handleUserLogin(email, password)
-		  if (user) { 
-			  history.push('/')
-		  }
-    }
+		let email = document.getElementsByName('email')[0].value
+		let password = document.getElementsByName('password')[0].value
+			const user = await handleUserLogin(email, password)
+			  if (user) { 
+				  history.push('/')
+			  }
+		}
   return(<>
 		<div className="card mx-auto" style={{maxWidth: '380px', marginTop:'200px'}}>
       <div className="card-body">

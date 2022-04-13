@@ -2,23 +2,23 @@ import React from 'react';
 import { useDispatch } from "react-redux";
 import { addToCart, removeFromCart, updateCart } from "../../lib/state/actions";
 
-const Row = ({ id, name, price, quantity}) => { 
+const Row = ({ _id, name, price, imageUrl, quantity}) => { 
     const dispatch = useDispatch()
     const addToCartAction = (e) => {
         e.preventDefault()
-		dispatch(addToCart({ id, name, price }))
+		dispatch(addToCart({ _id, name, price }))
     }
     const removeFromCartAction = (e) => { 
         e.preventDefault()
-        dispatch(removeFromCart(id))
+        dispatch(removeFromCart(_id))
     }
-    const updateQuantity = (e) => dispatch(updateCart(id, e.target.value))
-
+    const updateQuantity = (e) => dispatch(updateCart(_id, e.target.value))
+    
     return (
         <tr>
             <td>
                 <figure className="itemside">
-                    <div className="aside"><img src={ `images/items/${id}.jpg`} className="img-sm" /></div>
+                    <div className="aside"><img src={ imageUrl } className="img-sm" /></div>
                     <figcaption className="info">
                         <a href="#" className="title text-dark">{ name }</a>
                     </figcaption>

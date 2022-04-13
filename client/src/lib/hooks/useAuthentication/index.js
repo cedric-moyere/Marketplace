@@ -1,5 +1,3 @@
-import * as Realm from "realm-web";
-import { app } from '../../mongoDB-sdk'
 import { addUser, getUser } from '../../service'
 import { handleLogin, handleAuthenticationError, handleLogout } from '../../state/actions/authentication'
 
@@ -24,10 +22,12 @@ const useAuthentication = (dispatch) => {
             })
     } 
     async function handleUserLogout() {
-        localStorage.removeItem("user")
+        localStorage.removeItem('user')
+        localStorage.removeItem('items')
+        localStorage.removeItem('total')
         dispatch(handleLogout())
     }
-    async function handleAuthentication(user) {
+    function handleAuthentication(user) {
         getUser(user?.email, user?.password)
             .then(userProfile => dispatch(handleLogin(userProfile)))
             .catch(err =>  dispatch(handleAuthenticationError(err)))

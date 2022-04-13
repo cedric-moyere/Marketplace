@@ -4,8 +4,8 @@ import {
 } from '../actions/actionTypes'
 
 const initialState = {
-    current: null, 
-    error : null
+    current: localStorage.getItem('user'),
+    error: null
 };
 const user = (state = initialState, { type, payload }) => { 
     console.log(type)

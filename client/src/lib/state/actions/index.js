@@ -33,13 +33,13 @@ export function getProductsPending() {
 export function getProductsSuccess(data) { 
   return {
     type: GET_PRODUCTS_SUCCESS, 
-     payload: { data }
+    payload: { data }
   };
 }
 export function getProductsFailure(error) { 
  return {
     type: GET_PRODUCTS_FAILURE, 
-     payload: { error }
+    payload: { error }
   };
 }
 export function addToCart(product) {
