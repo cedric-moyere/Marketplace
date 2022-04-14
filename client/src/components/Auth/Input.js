@@ -3,7 +3,7 @@ import React from 'react'
 export const Text = ({label, name, type = 'text', col, placeholder, value, style, children, onChange, onClick }) =>
     <div className="col form-group col-md" style={style}>
     <label>{label}</label>
-    <input type={type} name={name} className="form-control" placeholder={placeholder} defaultValue={value} onBlur={onChange} onClick={onClick} onKeyUp={onClick} onFocus={onClick}  />
+    <input type={type} name={name} className="form-control" placeholder={placeholder} defaultValue={value} onBlur={onChange} onClick={onClick} onKeyUp={onChange} onFocus={onClick}  />
     {children}
 </div>
 export const Radio = ({ label, name, value, onChange}) => 
@@ -33,8 +33,17 @@ export const Select = ({ value, label, options, col, name, onChange, style}) => 
     )
 }
 export const Email = props =>
-<Text type="email" {...props} name="email">
-</Text>
-export const Password = props => <div className={`form-group col-md-${props.col}`}><Text name='password' type="password" {...props} onBlur={props.onChange}/></div>
-export const ConfirmPassword = props => <div className={`form-group col-md-${props.col}`}><Text name='confirm_password' type="password" {...props} onBlur={props.onChange}/></div>
-export const Submit = props => <button type="submit" className={`btn ${props.classNamees}`} disabled={props.disabled}>{props.title}</button>
+    <Text name="email" type="email" {...props}>
+    </Text>
+export const Password = props =>
+    <div className={`form-group col-md-${props.col}`}>
+        <Text name='password' type="password" {...props}/>
+    </div>
+export const ConfirmPassword = props =>
+    <div className={`form-group col-md-${props.col}`}>
+        <Text name='confirm_password' type="password" {...props}/>
+    </div>
+export const Submit = props =>
+    <button type="submit" className={`btn ${props.classNamees}`} disabled={props.disabled}>
+        {props.title}
+    </button>

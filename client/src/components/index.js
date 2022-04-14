@@ -1,6 +1,6 @@
 import React from 'react';
-import {Route } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux';
+import {Route} from "react-router-dom";
+import {useDispatch} from 'react-redux';
 import Home from './Home'
 import About from './Misc/About'
 import Help from './Misc/Help'
@@ -15,10 +15,10 @@ import useAuthentication from '../lib/hooks/useAuthentication'
 
 const App = () => {
   const dispatch = useDispatch()
-  const { user } = useSelector((state) => ({ ...state.user }));
 	const { handleAuthentication } = useAuthentication(dispatch)
   React.useEffect(() => { 
-    handleAuthentication(user)
+    const user = JSON.parse(localStorage.getItem('user'))
+    if(user) handleAuthentication(user)
   }, []) 
 	
   return (

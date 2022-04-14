@@ -9,14 +9,13 @@ export const useFormValidation = ({ formName, defaultValues }) => {
     const [isDirty, setDirty] = React.useState(false)
 
     const handleOnChange = (event, value) => {
-  
         setDirty(true)
         const val = value?.toLowerCase() ?? event.target.value
         setFormValues(prevState => ({ ...prevState, [formName]: { ...prevState[formName], [event.target.name]: val } }))
-              validate(formValues[formName])
+        validate(formValues[formName])
     }
    
-    const isValid = React.useMemo(() => Object.values(errors[formName] ?? {}).some(error => error), [formValues, handleOnChange])
+    const isValid = React.useMemo(() => !Object.values(errors[formName] ?? {}).some(error => error), [formValues, handleOnChange])
     React.useEffect(() => register(), [])
   
     const register = (values) => {
@@ -26,11 +25,13 @@ export const useFormValidation = ({ formName, defaultValues }) => {
                 setFormValues(prevState => ({ ...defaultValues, [formName]: { ...prevState[formName], [key]: value } }))
             })  
     }
-    const validate = async (values) => 
+    const validate = async (values) =>
         Object.entries(values)
             .forEach(([key, value]) =>
                 setErrors(prevState =>
-                    ({ ...prevState, [formName]: { ...prevState[formName], [key]: !value?.length } })))     
+                    ({ ...prevState, [formName]: { ...prevState[formName], [key]: !value?.length } })
+                )
+            )    
                 
     context = React.useMemo(() => { 
         return {    

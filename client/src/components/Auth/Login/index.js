@@ -12,9 +12,9 @@ const Alert = ({ isVisible }) => (
   </div>
 )
 const ErrorMessage = ({ error }) => (
-	error?.error && 
+	error &&
 	<div className="alert alert-danger mt-3">
-		<p className="icontext]" style={{ color: 'crimson' }}><i className="icon text-danger fas fa-exclamation-circle"></i> {' '}{error?.error}</p>
+		<p className="icontext]" style={{ color: 'crimson' }}><i className="icon text-danger fas fa-exclamation-circle"></i> {' '}{ error.response.data.error }</p>
   </div> ||
   <></>
 )
@@ -29,40 +29,38 @@ const Login = ({ history }) => {
   const { formValues, validate, handleOnChange, isValid } = useFormValidation({ formName: 'login', defaultValues: defaultValues })
   const { email, password } = formValues['login'] ?? {}
   const { handleUserLogin } = useAuthentication(dispatch)
-  React.useEffect(() => validate(formValues['login'] ?? {}), [formValues, handleOnChange]) 
+  React.useEffect(() => validate(formValues['login'] ?? {}), [formValues, handleOnChange])
 	
-	const handleOnSubmit = async (e) => { 
-		e.preventDefault()
-		let email = document.getElementsByName('email')[0].value
-		let password = document.getElementsByName('password')[0].value
-			const user = await handleUserLogin(email, password)
-			  if (user) { 
-				  history.push('/')
-			  }
-		}
+  const handleOnSubmit = async (e) => {
+      e.preventDefault()
+      const user = await handleUserLogin(email, password)
+      if (user) { 
+        history.push('/')
+    }
+  }
   return(<>
 		<div className="card mx-auto" style={{maxWidth: '380px', marginTop:'200px'}}>
       <div className="card-body">
         <h4 className="card-title mb-4">Sign in</h4>
-        <ErrorMessage error={error} />
-        <Alert isVisible={!!current} />
+        <ErrorMessage error={ error } />
+        <Alert isVisible={ !!current } />
         
-       	<form name="login" onSubmit={handleOnSubmit}>
+       	<form name="login" onSubmit={ handleOnSubmit }>
           {/* 
           <a href="#" className="btn btn-facebook btn-block mb-2"> <i className="fab fa-facebook-f"></i> &nbsp  Sign in with Facebook</a>
           <a href="#" className="btn btn-google btn-block mb-4"> <i className="fab fa-google"></i> &nbsp  Sign in with Google</a> 
           */}
           <div className="form-group" style={{ marginBottom: 0 }}>
-            <Input.Email label="Email" style={{padding: 0}}   value={email} onChange={handleOnChange}/>
+            <Input.Email label="Email" style={{ padding: 0 }} value={ email } onChange={ handleOnChange }/>
           </div>
           <div className="form-group">
-				    <Input.Password label="Password" name="password" value={password} style={{padding: 0}}  onChange={handleOnChange} />
+				    <Input.Password label="Password" value={ password } style={{ padding: 0 }} onChange={ handleOnChange } />
           </div>
           <div className="form-group"> 
 					  <Input.Checkbox col="6">Remember</Input.Checkbox>
 				  </div>   
           <div className="form-group">
-					  <Input.Submit classNamees="btn-primary btn-block" title="Login" disabled={!isValid} /> 
+					  <Input.Submit classNamees="btn-primary btn-block" title="Login" disabled={ !isValid } /> 
 			    </div>  
       </form>
       </div>

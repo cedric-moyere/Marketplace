@@ -8,7 +8,7 @@ const UserLogin = ({ user  }) => {
 	const { handleUserLogout } = useAuthentication(dispatch)
 	const logout = async () => { 
 		handleUserLogout()
-		setTimeout(() => window.location.reload(), 1000)
+		setTimeout(() => window.location.reload(), 500)
 	}
 	return (
 		<>
@@ -16,7 +16,7 @@ const UserLogin = ({ user  }) => {
 				{!!user ?
 					<>
 						<button className="btn btn-danger btn-sm" onClick={logout}>logout</button>{" "}
-						<span><b>Hi, {user?.first}</b></span>
+						<span><b>Hi, {user.first}</b></span>
 					</> :
 					<span>
 						<Link to={'/login'}>login</Link> or <Link to={'/register'}>register</Link>
@@ -34,10 +34,10 @@ const Header = () => {
 	const { items } = useSelector(state => ({ ...state.cart }));
 	const { current } = useSelector(state => ({ ...state.user }));
 	const quantity = items.length > 0 ? items.length : ''
-
-
-	React.useEffect(() => handleAuthentication(current), [current])
-	
+	React.useEffect(() => { 
+		const user = JSON.parse(localStorage.getItem('user'))
+		if(user) handleAuthentication(user)
+	}, [])
 	return(<nav className="navbar d-flex p-md-0 navbar-expand-lg navbar-light bg-light border-bottom">
 			<div className="container-fluid">
 			<button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTop4" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
