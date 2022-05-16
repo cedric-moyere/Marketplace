@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { saveOrder } from "../../lib/state/actions";
+import { saveOrder } from "../../lib/state/actions/orders";
 import useAuthentication from "../../lib/hooks/useAuthentication";
 
 const styles = {
@@ -19,9 +19,7 @@ function Success({ history }) {
   }
   function dispatchAndSaveOrder() {
     return new Promise(async (resolve) => {
-      const items = localStorage.getItem("items")
-        ? JSON.parse(localStorage.getItem("items"))
-        : [];
+      const items = localStorage.getItem("items") ? JSON.parse(localStorage.getItem("items")) : [];
       const total = JSON.parse(localStorage.getItem("total"));
       const order = {
         owner_id: user?._id,
@@ -56,14 +54,11 @@ function Success({ history }) {
   }, [user]);
   return (
     <>
-      <div
-        style={styles}
-        className="d-flex justify-content-center align-items-center"
-      >
+      <div style={styles} className="d-flex justify-content-center align-items-center">
         <div className="alert alert-success mt-3 mb-3">
           <p className="icontext">
-            <i className="icon text-success fa fa-thumbs-up"></i>Thank you for
-            your order & your payment
+            <i className="icon text-success fa fa-thumbs-up"></i>Thank you for your order & your
+            payment
           </p>
         </div>
       </div>

@@ -4,7 +4,7 @@ import { useFormValidation } from "../../lib/hooks/useFormValidation";
 import useAuthentication from "../../lib/hooks/useAuthentication";
 import { setDelivery } from "../../lib/state/actions";
 
-import * as Input from "../Auth/Input";
+import * as Input from "../Shared/Input";
 import Payment from "./Payment";
 import DeliveryBox from "./DeliveryBox";
 
@@ -20,13 +20,7 @@ const Checkout = () => {
   const { user } = useSelector((state) => ({ ...state.user }));
   const { delivery } = useSelector((state) => ({ ...state.cart }));
   const { first, last, email, address, country, city } = user ?? {};
-  const {
-    formValues,
-    validate,
-    register,
-    handleOnChange,
-    isValid,
-  } = useFormValidation({
+  const { formValues, validate, register, handleOnChange, isValid } = useFormValidation({
     formName: "checkout",
     defaultValues: { ...user, ...defaultValues },
   });
@@ -82,21 +76,11 @@ const Checkout = () => {
                   value={first}
                   onChange={handleOnChange}
                 />
-                <Input.Text
-                  label="Last name"
-                  name="last"
-                  value={last}
-                  onChange={handleOnChange}
-                />
+                <Input.Text label="Last name" name="last" value={last} onChange={handleOnChange} />
               </div>
 
               <div className="form-row">
-                <Input.Email
-                  label="Email"
-                  value={email}
-                  onChange={handleOnChange}
-                  col="6"
-                />
+                <Input.Email label="Email" value={email} onChange={handleOnChange} col="6" />
               </div>
               <div className="form-row">
                 <Input.Select
@@ -107,12 +91,7 @@ const Checkout = () => {
                   col="6"
                   onChange={handleOnChange}
                 />
-                <Input.Text
-                  label="City"
-                  name="city"
-                  value={city}
-                  onChange={handleOnChange}
-                />
+                <Input.Text label="City" name="city" value={city} onChange={handleOnChange} />
               </div>
               <Input.TextArea
                 label="Address"

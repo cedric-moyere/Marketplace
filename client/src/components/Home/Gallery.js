@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Product from "./Product";
 import Pagination from "./Pagination";
-import { fetchProducts } from "../../lib/state/actions/index.js";
+import { fetchProducts } from "../../lib/state/actions/products.js";
 
 const Results = ({ items, pageIndex }) =>
   !!items.length &&

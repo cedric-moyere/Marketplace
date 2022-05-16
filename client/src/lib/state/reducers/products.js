@@ -1,41 +1,54 @@
 import {
-    SET_PAGE_INDEX,
-    GET_PRODUCTS_PENDING, 
-    GET_PRODUCTS_SUCCESS, 
-    GET_PRODUCTS_FAILURE
-} from '../actions/actionTypes'
+  SET_PAGE_INDEX,
+  GET_PRODUCTS_PENDING,
+  GET_PRODUCTS_SUCCESS,
+  GET_PRODUCTS_FAILURE,
+  ADD_PRODUCT_SUCCESS,
+  ADD_PRODUCT_FAILURE,
+} from "../actions/actionTypes";
 
-const initialState = { 
+const initialState = {
   isLoading: false,
   pageIndex: 0,
-  items: []
+  items: [],
 };
-const products = (state = initialState, { type, payload}) => { 
-    switch (type) {
-        case GET_PRODUCTS_PENDING:
-             return {
-                 ...state, 
-                isLoading: true
-             }
-        case GET_PRODUCTS_SUCCESS:
-             return {
-                ...state, 
-                isLoading: false,
-                items: payload.data
-            } 
-        case GET_PRODUCTS_FAILURE:
-            return {
-            ...state, 
-            isLoading: false,
-            items: payload.error
-        }
-        case SET_PAGE_INDEX:
-            return {
-            ...state, 
-            pageIndex: payload.index
-            }       
-        default:
-        return state;
+const products = (state = initialState, { type, payload }) => {
+  switch (type) {
+    case GET_PRODUCTS_PENDING:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case GET_PRODUCTS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        items: payload.data,
+      };
+    case GET_PRODUCTS_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        items: payload.error,
+      };
+    case ADD_PRODUCT_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case ADD_PRODUCT_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        items: payload.error,
+      };
+    case SET_PAGE_INDEX:
+      return {
+        ...state,
+        pageIndex: payload.index,
+      };
+    default:
+      return state;
   }
-}
-export default products 
+};
+export default products;
