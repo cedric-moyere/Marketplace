@@ -1,6 +1,6 @@
 import React from "react";
 import { Route } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Home from "./Home";
 import Admin from "./Admin/products";
 import About from "./Misc/About";
@@ -12,16 +12,9 @@ import Success from "./Checkout/Success";
 import Cancel from "./Checkout/Cancel";
 import Cart from "./Cart";
 import Layout from "./Layout";
-import useAuthentication from "../lib/hooks/useAuthentication";
 
 const App = () => {
-  const dispatch = useDispatch();
-  const { handleAuthentication } = useAuthentication(dispatch);
   const { current } = useSelector((state) => ({ ...state.user }));
-
-  React.useEffect(() => {
-    if (current) handleAuthentication(current);
-  }, []);
 
   return (
     <Layout>
