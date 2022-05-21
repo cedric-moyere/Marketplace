@@ -2,8 +2,10 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTable, useSortBy } from "react-table";
 import { fetchProducts } from "../../../lib/state/actions/products";
+import Create from "./create";
+import { Route, Link, Switch, useRouteMatch } from "react-router-dom";
 
-const ProductsDataTable = () => {
+const Products = () => {
   const dispatch = useDispatch();
   const state = useSelector((state) => ({ ...state.products }));
   React.useEffect(() => {
@@ -28,50 +30,59 @@ const ProductsDataTable = () => {
     useSortBy
   );
   console.log(getTableProps());
+  const { path, url } = useRouteMatch();
 
   return (
     <div className="col" style={{ marginTop: "140px" }}>
-      <table {...getTableProps()} className="table table-bordered table-striped table-hover">
-        <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <th
-                  {...column.getHeaderProps(column.getSortByToggleProps())}
-                  style={{
-                    textAlign: "center",
-                  }}
-                >
-                  {column.render("Header")}
-                  <span>{column.isSorted ? (column.isSortedDesc ? " 🔽" : " 🔼") : " 🔽"}</span>
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {rows.map((row) => {
-            prepareRow(row);
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map((cell) => {
-                  return (
-                    <td
-                      {...cell.getCellProps()}
+      <Switch>
+        <Route exact path={`${path}`}>
+          <Link to={`${url}/create`}><button className="btn btn-primary">Create</button></Link>
+          <table {...getTableProps()} className="table table-bordered table-striped table-hover">
+            <thead>
+              {headerGroups.map((headerGroup) => (
+                <tr {...headerGroup.getHeaderGroupProps()}>
+                  {headerGroup.headers.map((column) => (
+                    <th
+                      {...column.getHeaderProps(column.getSortByToggleProps())}
                       style={{
                         textAlign: "center",
                       }}
                     >
-                      {cell.render("Cell")}
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+                      {column.render("Header")}
+                      <span>{column.isSorted ? (column.isSortedDesc ? " 🔽" : " 🔼") : " 🔽"}</span>
+                    </th>
+                  ))}
+                </tr>
+              ))}
+            </thead>
+            <tbody {...getTableBodyProps()}>
+              {rows.map((row) => {
+                prepareRow(row);
+                return (
+                  <tr {...row.getRowProps()}>
+                    {row.cells.map((cell) => {
+                      return (
+                        <td
+                          {...cell.getCellProps()}
+                          style={{
+                            textAlign: "center",
+                          }}
+                        >
+                          {cell.render("Cell")}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </Route>
+        <Route path={`${path}/create`}>
+          <Create />
+        </Route>
+      </Switch>
     </div>
   );
 };
-export default ProductsDataTable;
+export default Products;

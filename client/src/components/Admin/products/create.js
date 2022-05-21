@@ -32,7 +32,7 @@ const defaultValues = {
 const FORM_NAME = "createProduct";
 const options = ["France", "Uzbekistan", "Russia", "United States", "India", "Afganistan"];
 
-const Admin = ({ history }) => {
+const Create = ({ history }) => {
   const dispatch = useDispatch();
   const { current } = useSelector((state) => state.user);
   const { formValues, validate, handleOnChange, isValid } = useFormValidation({
@@ -103,10 +103,17 @@ const Admin = ({ history }) => {
                 disabled={!isValid}
               />
             </div>
+            <div className="form-group">
+              <button
+                className="btn-primary btn-block"
+                title="Abort"
+                onClick={()=>{}}>
+              Abort</button>
+            </div>
           </form>
         </article>
       </div>
     </>
   );
 };
-export default Admin;
+export default Create;

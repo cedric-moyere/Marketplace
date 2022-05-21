@@ -2,7 +2,7 @@ import React from "react";
 import { Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Home from "./Home";
-import Admin from "./Admin/products";
+import Admin from "./Admin";
 import About from "./Misc/About";
 import Help from "./Misc/Help";
 import Login from "./Auth/Login";

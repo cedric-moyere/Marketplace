@@ -99,17 +99,17 @@ export const Submit = (props) => (
   </button>
 );
 export const Number = (props) => (
-  <div class={`col-md-${props.col} form-group col-md`}>
-    <label for={props.id} class="form-label">
+  <div className={`col-md-${props.col} form-group col-md`}>
+    <label htmlFor={props.id} className="form-label">
       {props.label}
     </label>
-    <input type="number" class="form-control" id={props.id} onBlur={props.onChange} />
+    <input type="number" className="form-control" id={props.id} onBlur={props.onChange} />
   </div>
 );
 export const File = (props) => (
-  <div class={`col-md-${props.col} col-md custom-file input-group mt-3`}>
-    <input id={props.id} type="file" class="custom-file-input" onBlur={props.onChange} />
-    <label for={props.id} class="custom-file-label">
+  <div className={`col-md-${props.col} col-md custom-file input-group mt-3`}>
+    <input id={props.id} type="file" className="custom-file-input" onBlur={props.onChange} />
+    <label htmlFor={props.id} className="custom-file-label">
       {props.label}
     </label>
   </div>
