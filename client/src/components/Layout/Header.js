@@ -70,7 +70,8 @@ const Header = () => {
           <ul className="navbar-nav">
             <li>
               <a href="#" className="nav-link">
-                <img src="images/icons/flags/US.png" height="16" /> Ship to
+                <img src={process.env.PUBLIC_URL + "images/icons/flags/US.png"} height="16" />
+                Ship to
               </a>
             </li>
             <li className="nav-item dropdown">
