@@ -9,9 +9,11 @@ const Products = () => {
   const dispatch = useDispatch();
   const state = useSelector((state) => ({ ...state.products }));
   React.useEffect(() => {
-    dispatch(fetchProducts());
-  }, []);
-  const data = React.useMemo(() => state.items[0], [state]) || [{}];
+    if (!state.items[0]) {
+      dispatch(fetchProducts());
+    }
+  }, [state.isLoading]);
+  const data = React.useMemo(() => state.items[0], [state.isLoading]) || [{}];
   const columns = React.useMemo(
     () =>
       Object.getOwnPropertyNames(data[0])
@@ -19,24 +21,27 @@ const Products = () => {
         .map((c) => {
           return { Header: `${c[0].toUpperCase()}${c.slice(1)}`, accessor: c };
         }),
-    []
+    [state.isLoading]
   );
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
     {
       columns,
       data,
+      autoResetHiddenColumns: false,
+      autoResetSortBy: false,
+      autoResetPage: false,
     },
     useSortBy
   );
-  console.log(getTableProps());
   const { path, url } = useRouteMatch();
-
   return (
     <div className="col" style={{ marginTop: "140px" }}>
       <Switch>
         <Route exact path={`${path}`}>
-          <Link to={`${url}/create`}><button className="btn btn-primary">Create</button></Link>
+          <Link to={`${url}/create`}>
+            <button className="btn btn-primary">Create</button>
+          </Link>
           <table {...getTableProps()} className="table table-bordered table-striped table-hover">
             <thead>
               {headerGroups.map((headerGroup) => (
@@ -68,7 +73,7 @@ const Products = () => {
                             textAlign: "center",
                           }}
                         >
-                          {cell.render("Cell")}
+                          {cell.value === true ? " ✅" : cell.value === false ? " ❌" : cell.value}
                         </td>
                       );
                     })}

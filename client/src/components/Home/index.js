@@ -1,6 +1,6 @@
 import React from "react";
 import Gallery from "./Gallery";
-console.log(process.env.PUBLIC_URL + "images/items/3.jpg");
+
 const Deals = () => (
   <section className="padding-bottom mt-5">
     <div className="card card-deal">

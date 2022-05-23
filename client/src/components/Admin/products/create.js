@@ -34,7 +34,7 @@ const options = ["France", "Uzbekistan", "Russia", "United States", "India", "Af
 
 const Create = ({ history }) => {
   const dispatch = useDispatch();
-  const { current } = useSelector((state) => state.user);
+  const { current } = useSelector((state) => ({ ...state.user }));
   const { formValues, validate, handleOnChange, isValid } = useFormValidation({
     formName: FORM_NAME,
     defaultValues: defaultValues,

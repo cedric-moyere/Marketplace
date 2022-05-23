@@ -34,7 +34,7 @@ const defaultValues = {
 const options = ["France", "Uzbekistan", "Russia", "United States", "India", "Afganistan"];
 const Register = ({ history }) => {
   const dispatch = useDispatch();
-  const { current, error } = useSelector((state) => state.user);
+  const { current, error } = useSelector((state) => ({ ...state.user }));
   const { formValues, validate, handleOnChange, isValid } = useFormValidation({
     formName: "register",
     defaultValues: defaultValues,
