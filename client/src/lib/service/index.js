@@ -2,29 +2,30 @@ import axios from "axios";
 import { loadStripe } from "@stripe/stripe-js";
 
 export const getProducts = () => {
-  const user = JSON.parse(localStorage.getItem("user"));
   return new Promise((onSuccess, onFail) => {
     axios
-      .get("/api/products", {
-        headers: { "x-access-token": user.token },
-      })
+      .get("/api/products")
       .then((response, error) => {
         if (!response || error) {
           return onFail(`Response failure ${error}`);
         }
         onSuccess(response);
-      });
+      })
+      .catch((err) => onFail(err));
   });
 };
 export const addProduct = (body) => {
+  const user = JSON.parse(localStorage.getItem("user"));
   return new Promise((onSuccess, onFail) => {
     axios
-      .post("/api/products", body)
+      .post("/api/products", body, {
+        headers: { "x-access-token": user.token },
+      })
       .then((response, error) => {
         if (error) {
           return onFail(`error adding new product : ${error}`);
         }
-        onSuccess(`new product successfully created ${response}`);
+        onSuccess(`new product successfully created ${response.message}`);
       })
       .catch((err) => onFail(err));
   });

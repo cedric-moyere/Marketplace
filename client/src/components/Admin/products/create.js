@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormValidation } from "../../../lib/hooks/useFormValidation";
-// import createProduct from "../../../lib/state/actions/products";
+import { createProduct } from "../../../lib/state/actions/products";
 import * as Input from "../../Shared/Input";
 
 const Alert = ({ isVisible }) =>
@@ -13,10 +13,10 @@ const Alert = ({ isVisible }) =>
     </div>
   );
 const ErrorMessage = ({ error }) =>
-  (error?.error && (
+  (error && (
     <div className="alert alert-danger mt-3">
       <p className="icontext]" style={{ color: "crimson" }}>
-        <i className="icon text-danger fas fa-exclamation-circle"></i> {error?.error}
+        <i className="icon text-danger fas fa-exclamation-circle"></i> {error}
       </p>
     </div>
   )) || <></>;
@@ -41,14 +41,25 @@ const Create = ({ history }) => {
   });
   const { name, description, price, inStock, imageUrl, category } = formValues[FORM_NAME] ?? {};
   var error;
+  var created;
   React.useEffect(() => validate(formValues[FORM_NAME] ?? {}), [formValues]);
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
-    const newProduct = { name, description, price, inStock, imageUrl, category };
-    // createProduct(newProduct)
-    //   .then(() => setTimeout(() => history.push("/"), 2000))
-    //   .catch((err) => console.log(err));
+    const product = {
+      name: "name",
+      description: "description",
+      price: 10,
+      inStock: true,
+      imageUrl: "imageUrl",
+      category: "category",
+    };
+    dispatch(createProduct({ product }));
+    // .then(() => {
+    //   created = true;
+    //   setTimeout(() => history.push("/"), 2000);
+    // })
+    // .catch((err) => (error = err));
   };
   return (
     <>
@@ -58,7 +69,7 @@ const Create = ({ history }) => {
             <h4 className="card-title">Create product</h4>
           </header>
           <ErrorMessage error={error} />
-          <Alert isVisible={!!current} />
+          <Alert isVisible={!!created} />
           <form name={FORM_NAME} onSubmit={handleOnSubmit}>
             <div className="form-row">
               <Input.Text label="Name" name="name" value={name} onChange={handleOnChange} />
@@ -99,16 +110,14 @@ const Create = ({ history }) => {
             <div className="form-group">
               <Input.Submit
                 classNamees="btn-primary btn-block"
-                title="Register"
-                disabled={!isValid}
+                title="Add product"
+                disabled={isValid}
               />
             </div>
             <div className="form-group">
-              <button
-                className="btn-primary btn-block"
-                title="Abort"
-                onClick={()=>{}}>
-              Abort</button>
+              <button className="btn-primary btn-block" title="Abort">
+                Abort
+              </button>
             </div>
           </form>
         </article>
