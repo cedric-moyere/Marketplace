@@ -11,6 +11,7 @@ export const Text = ({
   children,
   onChange,
   onClick,
+  formref,
 }) => (
   <div className="col form-group col-md" style={style}>
     <label>{label}</label>
@@ -24,6 +25,7 @@ export const Text = ({
       onClick={onClick}
       onKeyUp={onChange}
       onFocus={onClick}
+      {...formref}
     />
     {children}
   </div>
@@ -42,10 +44,16 @@ export const Radio = ({ label, name, value, onChange }) => (
     <span className="custom-control-label">{label}</span>
   </label>
 );
-export const Checkbox = ({ name, label, onChange }) => (
+export const Checkbox = ({ name, label, onChange, formref }) => (
   <div className="col form-group col-md">
     <label className="custom-control custom-checkbox">
-      <input type="checkbox" className="custom-control-input" name={name} onBlur={onChange} />
+      <input
+        type="checkbox"
+        className="custom-control-input"
+        name={name}
+        onClick={onChange}
+        {...formref}
+      />
       <div className="custom-control-label">{label}</div>
     </label>
   </div>
@@ -98,24 +106,30 @@ export const Submit = (props) => (
     {props.title}
   </button>
 );
-export const Number = (props) => (
-  <div className={`col-md-${props.col} form-group col-md`}>
-    <label htmlFor={props.id} className="form-label">
-      {props.label}
-    </label>
+export const Number = ({ col, value, label, name, onChange, formref }) => (
+  <div className={`col-md-${col} form-group col-md`}>
+    <label>{label}</label>
     <input
       type="number"
-      name={props.name}
+      name={name}
       className="form-control"
-      id={props.id}
-      onBlur={props.onChange}
-      onKeyUp={props.onChange}
+      defaultValue={value}
+      onBlur={onChange}
+      onInput={onChange}
+      {...formref}
     />
   </div>
 );
 export const File = (props) => (
   <div className={`col-md-${props.col} col-md custom-file input-group mt-3`}>
-    <input id={props.id} type="file" className="custom-file-input" onBlur={props.onChange} />
+    <input
+      id={props.id}
+      type="file"
+      className="custom-file-input"
+      onInput={props.onChange}
+      required={props.required}
+      {...props.formref}
+    />
     <label htmlFor={props.id} className="custom-file-label">
       {props.label}
     </label>

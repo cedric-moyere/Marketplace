@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { useFormValidation } from "../../../lib/hooks/useFormValidation";
 import { createProduct } from "../../../lib/state/actions/products";
@@ -17,7 +17,7 @@ const ErrorMessage = ({ error }) =>
   (error && (
     <div className="alert alert-danger mt-3">
       <p className="icontext]" style={{ color: "crimson" }}>
-        <i className="icon text-danger fas fa-exclamation-circle"></i> {error}
+        <i className="icon text-danger fas fa-exclamation-circle"></i> {JSON.stringify(error)}
       </p>
     </div>
   )) || <></>;
@@ -26,39 +26,41 @@ const defaultValues = {
   name: "",
   description: "",
   price: "",
-  inStock: false,
-  imageUrl: "",
+  image: "",
   category: "",
 };
 const FORM_NAME = "createProduct";
-const options = ["France", "Uzbekistan", "Russia", "United States", "India", "Afganistan"];
 
 const Create = ({ history }) => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const dispatch = useDispatch();
-  const { current } = useSelector((state) => ({ ...state.user }));
-  const { formValues, validate, handleOnChange, isValid } = useFormValidation({
+  const { errors, formValues, validate, handleOnChange, isValid } = useFormValidation({
     formName: FORM_NAME,
     defaultValues: defaultValues,
   });
-  const { name, description, price, inStock, imageUrl, category } = formValues[FORM_NAME] ?? {};
-  var error;
+  const { name, description, price, inStock, image, category } = formValues[FORM_NAME] ?? {};
   var created;
-  React.useEffect(() => validate(formValues[FORM_NAME] ?? {}), [formValues]);
+  React.useEffect(() => {
+    validate(formValues[FORM_NAME] ?? {});
+  }, [formValues]);
 
   const onSubmit = async (data) => {
-    const product = {
-      name,
-      description,
-      price,
-      inStock,
-      imageUrl,
-      category,
-    };
     const formData = new FormData();
-    formData.append("image", data.file[0]);
+    formData.append("image", data.image[0]);
+    const product = {
+      name: data.name,
+      description: data.description,
+      price: data.price,
+      inStock: data.inStock,
+      category: data.category,
+    };
     formData.append("product", JSON.stringify(product));
     dispatch(createProduct(formData));
+  };
+
+  const abort = (e) => {
+    e.preventDefault();
+    reset({ ...defaultValues, inStock: false });
   };
   return (
     <>
@@ -67,53 +69,64 @@ const Create = ({ history }) => {
           <header className="mb-4">
             <h4 className="card-title">Create product</h4>
           </header>
-          <ErrorMessage error={error} />
+          <ErrorMessage error={errors} />
           <Alert isVisible={!!created} />
-          <form name={FORM_NAME} onSubmit={handleSubmit(onSubmit)}>
+          <form name={FORM_NAME}>
             <div className="form-row">
-              <Input.Text label="Name" name="name" value={name} onChange={handleOnChange} />
+              <Input.Text
+                label="Name"
+                value={name}
+                onChange={handleOnChange}
+                formref={{ ...register("name") }}
+              />
               <Input.Text
                 label="Category"
-                name="category"
                 value={category}
                 onChange={handleOnChange}
+                formref={{ ...register("category") }}
               />
             </div>
             <div className="form-row">
               <Input.Text
                 label="Description"
-                name="description"
                 value={description}
                 onChange={handleOnChange}
+                formref={{ ...register("description") }}
               />
             </div>
             <div className="form-row align-items-center">
-              <Input.Number label="Price" name="price" value={price} onChange={handleOnChange} />
-              <input type="file" {...register("file")} />
+              <Input.Number
+                label="Price"
+                value={price}
+                onChange={handleOnChange}
+                formref={{ ...register("price") }}
+              />
               <Input.File
                 label="Image"
-                name="imageUrl"
-                value={imageUrl}
+                value={image}
                 onChange={handleOnChange}
+                required={true}
+                formref={{ ...register("image") }}
               />
             </div>
             <div className="form-row">
               <Input.Checkbox
                 label="In stock"
-                name="inStock"
                 value={inStock}
                 onChange={handleOnChange}
+                formref={{ ...register("inStock") }}
               />
             </div>
-            <div className="form-group">
-              <Input.Submit
-                classNamees="btn-success btn-block"
+            <div className="form-row">
+              <button
+                className="btn btn-success btn-block"
                 title="Add product"
-                disabled={isValid}
-              />
-            </div>
-            <div className="form-group">
-              <button className="btn-danger btn-block" title="Abort">
+                disabled={!isValid}
+                onClick={handleSubmit(onSubmit)}
+              >
+                Add product
+              </button>
+              <button className="btn btn-primary btn-block" title="Abort" onClick={(e) => abort(e)}>
                 Abort
               </button>
             </div>
