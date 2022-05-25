@@ -1,5 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
 import { useFormValidation } from "../../../lib/hooks/useFormValidation";
 import { createProduct } from "../../../lib/state/actions/products";
 import * as Input from "../../Shared/Input";
@@ -33,6 +34,7 @@ const FORM_NAME = "createProduct";
 const options = ["France", "Uzbekistan", "Russia", "United States", "India", "Afganistan"];
 
 const Create = ({ history }) => {
+  const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
   const { current } = useSelector((state) => ({ ...state.user }));
   const { formValues, validate, handleOnChange, isValid } = useFormValidation({
@@ -44,22 +46,19 @@ const Create = ({ history }) => {
   var created;
   React.useEffect(() => validate(formValues[FORM_NAME] ?? {}), [formValues]);
 
-  const handleOnSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (data) => {
     const product = {
-      name: "name",
-      description: "description",
-      price: 10,
-      inStock: true,
-      imageUrl: "imageUrl",
-      category: "category",
+      name,
+      description,
+      price,
+      inStock,
+      imageUrl,
+      category,
     };
-    dispatch(createProduct({ product }));
-    // .then(() => {
-    //   created = true;
-    //   setTimeout(() => history.push("/"), 2000);
-    // })
-    // .catch((err) => (error = err));
+    const formData = new FormData();
+    formData.append("image", data.file[0]);
+    formData.append("product", JSON.stringify(product));
+    dispatch(createProduct(formData));
   };
   return (
     <>
@@ -70,7 +69,7 @@ const Create = ({ history }) => {
           </header>
           <ErrorMessage error={error} />
           <Alert isVisible={!!created} />
-          <form name={FORM_NAME} onSubmit={handleOnSubmit}>
+          <form name={FORM_NAME} onSubmit={handleSubmit(onSubmit)}>
             <div className="form-row">
               <Input.Text label="Name" name="name" value={name} onChange={handleOnChange} />
               <Input.Text
@@ -81,41 +80,40 @@ const Create = ({ history }) => {
               />
             </div>
             <div className="form-row">
-              <Input.Text label="Description" value={description} onChange={handleOnChange} />
-            </div>
-            <div className="form-row align-items-center">
-              <Input.Number
-                id="price"
-                name="price"
-                label="Price"
-                value={price}
+              <Input.Text
+                label="Description"
+                name="description"
+                value={description}
                 onChange={handleOnChange}
               />
+            </div>
+            <div className="form-row align-items-center">
+              <Input.Number label="Price" name="price" value={price} onChange={handleOnChange} />
+              <input type="file" {...register("file")} />
               <Input.File
-                id="imageUrl"
-                name="imageUrl"
                 label="Image"
+                name="imageUrl"
                 value={imageUrl}
                 onChange={handleOnChange}
               />
             </div>
             <div className="form-row">
               <Input.Checkbox
-                name="inStock"
                 label="In stock"
+                name="inStock"
                 value={inStock}
                 onChange={handleOnChange}
               />
             </div>
             <div className="form-group">
               <Input.Submit
-                classNamees="btn-primary btn-block"
+                classNamees="btn-success btn-block"
                 title="Add product"
                 disabled={isValid}
               />
             </div>
             <div className="form-group">
-              <button className="btn-primary btn-block" title="Abort">
+              <button className="btn-danger btn-block" title="Abort">
                 Abort
               </button>
             </div>

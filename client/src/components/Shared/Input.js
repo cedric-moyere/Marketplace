@@ -103,7 +103,14 @@ export const Number = (props) => (
     <label htmlFor={props.id} className="form-label">
       {props.label}
     </label>
-    <input type="number" className="form-control" id={props.id} onBlur={props.onChange} />
+    <input
+      type="number"
+      name={props.name}
+      className="form-control"
+      id={props.id}
+      onBlur={props.onChange}
+      onKeyUp={props.onChange}
+    />
   </div>
 );
 export const File = (props) => (
