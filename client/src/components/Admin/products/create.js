@@ -1,7 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
-import { useFormValidation } from "../../../lib/hooks/useFormValidation";
 import { createProduct } from "../../../lib/state/actions/products";
 import * as Input from "../../Shared/Input";
 
@@ -14,36 +13,17 @@ const Alert = ({ isVisible }) =>
     </div>
   );
 const ErrorMessage = ({ error }) =>
-  (error && (
-    <div className="alert alert-danger mt-3">
-      <p className="icontext]" style={{ color: "crimson" }}>
-        <i className="icon text-danger fas fa-exclamation-circle"></i> {JSON.stringify(error)}
-      </p>
-    </div>
-  )) || <></>;
-
-const defaultValues = {
-  name: "",
-  description: "",
-  price: "",
-  image: "",
-  category: "",
-};
-const FORM_NAME = "createProduct";
+  (error && <p className="text-danger">{error.message}</p>) || <></>;
 
 const Create = ({ history }) => {
-  const { register, handleSubmit, reset } = useForm();
   const dispatch = useDispatch();
-  const { errors, formValues, validate, handleOnChange, isValid } = useFormValidation({
-    formName: FORM_NAME,
-    defaultValues: defaultValues,
-  });
-  const { name, description, price, inStock, image, category } = formValues[FORM_NAME] ?? {};
-  var created;
-  React.useEffect(() => {
-    validate(formValues[FORM_NAME] ?? {});
-  }, [formValues]);
-
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors, isSubmitSuccessful },
+  } = useForm();
   const onSubmit = async (data) => {
     const formData = new FormData();
     formData.append("image", data.image[0]);
@@ -60,8 +40,17 @@ const Create = ({ history }) => {
 
   const abort = (e) => {
     e.preventDefault();
-    reset({ ...defaultValues, inStock: false });
+    reset({
+      name: "",
+      description: "",
+      price: "",
+      image: "",
+      category: "",
+      inStock: false,
+    });
   };
+
+  console.log(watch("name"));
   return (
     <>
       <div className="card mx-auto d-flex" style={{ maxWidth: "520px", marginTop: "140px" }}>
@@ -69,59 +58,48 @@ const Create = ({ history }) => {
           <header className="mb-4">
             <h4 className="card-title">Create product</h4>
           </header>
-          <ErrorMessage error={errors} />
-          <Alert isVisible={!!created} />
-          <form name={FORM_NAME}>
+          {<Alert isVisible={!!isSubmitSuccessful} />}
+          <form>
             <div className="form-row">
               <Input.Text
+                className="form-label"
                 label="Name"
-                value={name}
-                onChange={handleOnChange}
-                formref={{ ...register("name") }}
+                formref={{ ...register("name", { required: "Name is required" }) }}
+                children={<ErrorMessage error={errors.name} />}
               />
               <Input.Text
                 label="Category"
-                value={category}
-                onChange={handleOnChange}
-                formref={{ ...register("category") }}
+                formref={{ ...register("category", { required: "Category is required" }) }}
+                children={<ErrorMessage error={errors.category} />}
               />
             </div>
             <div className="form-row">
               <Input.Text
                 label="Description"
-                value={description}
-                onChange={handleOnChange}
-                formref={{ ...register("description") }}
+                formref={{ ...register("description", { required: "Description is required" }) }}
+                children={<ErrorMessage error={errors.description} />}
               />
             </div>
             <div className="form-row align-items-center">
               <Input.Number
+                min="1"
                 label="Price"
-                value={price}
-                onChange={handleOnChange}
-                formref={{ ...register("price") }}
+                formref={{ ...register("price", { required: "Price is required" }) }}
+                children={<ErrorMessage error={errors.price} />}
               />
               <Input.File
                 label="Image"
-                value={image}
-                onChange={handleOnChange}
-                required={true}
-                formref={{ ...register("image") }}
+                formref={{ ...register("image", { required: "Image is required" }) }}
+                children={<ErrorMessage error={errors.image} />}
               />
             </div>
             <div className="form-row">
-              <Input.Checkbox
-                label="In stock"
-                value={inStock}
-                onChange={handleOnChange}
-                formref={{ ...register("inStock") }}
-              />
+              <Input.Checkbox label="In stock" formref={{ ...register("inStock") }} />
             </div>
             <div className="form-row">
               <button
                 className="btn btn-success btn-block"
                 title="Add product"
-                disabled={!isValid}
                 onClick={handleSubmit(onSubmit)}
               >
                 Add product

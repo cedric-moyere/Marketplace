@@ -44,7 +44,7 @@ export const Radio = ({ label, name, value, onChange }) => (
     <span className="custom-control-label">{label}</span>
   </label>
 );
-export const Checkbox = ({ name, label, onChange, formref }) => (
+export const Checkbox = ({ name, label, onChange, children, formref }) => (
   <div className="col form-group col-md">
     <label className="custom-control custom-checkbox">
       <input
@@ -56,6 +56,7 @@ export const Checkbox = ({ name, label, onChange, formref }) => (
       />
       <div className="custom-control-label">{label}</div>
     </label>
+    {children}
   </div>
 );
 export const TextArea = ({ label, name, style, value, onChange }) => (
@@ -106,11 +107,13 @@ export const Submit = (props) => (
     {props.title}
   </button>
 );
-export const Number = ({ col, value, label, name, onChange, formref }) => (
+export const Number = ({ col, value, min, max, label, name, onChange, children, formref }) => (
   <div className={`col-md-${col} form-group col-md`}>
     <label>{label}</label>
     <input
       type="number"
+      min={min}
+      max={max}
       name={name}
       className="form-control"
       defaultValue={value}
@@ -118,6 +121,7 @@ export const Number = ({ col, value, label, name, onChange, formref }) => (
       onInput={onChange}
       {...formref}
     />
+    {children}
   </div>
 );
 export const File = (props) => (
@@ -133,5 +137,6 @@ export const File = (props) => (
     <label htmlFor={props.id} className="custom-file-label">
       {props.label}
     </label>
+    {props.children}
   </div>
 );
