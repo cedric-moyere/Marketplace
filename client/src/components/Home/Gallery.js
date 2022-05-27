@@ -6,7 +6,7 @@ import { fetchProducts } from "../../lib/state/actions/products.js";
 
 const Results = ({ items, pageIndex }) =>
   !!items.length &&
-  items[pageIndex].map((product) => <Product key={product.id + product.name} {...product} />);
+  items[pageIndex].map((product) => <Product key={product._id + product.name} {...product} />);
 const Empty = ({ isVisible }) =>
   !isVisible && <p style={{ marginLeft: 18, fontSize: 18 }}>No Listing available ... </p>;
 const Loading = ({ isLoading }) =>

@@ -53,7 +53,7 @@ const Create = ({ history }) => {
   console.log(watch("name"));
   return (
     <>
-      <div className="card mx-auto d-flex" style={{ maxWidth: "520px", marginTop: "140px" }}>
+      <div className="card mx-auto d-flex" style={{ maxWidth: "520px" }}>
         <article className="card-body">
           <header className="mb-4">
             <h4 className="card-title">Create product</h4>

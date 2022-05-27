@@ -36,7 +36,7 @@ const Products = () => {
   );
   const { path, url } = useRouteMatch();
   return (
-    <div className="col" style={{ marginTop: "140px" }}>
+    <div className="col mt-2">
       <Switch>
         <Route exact path={`${path}`}>
           <Link to={`${url}/create`}>

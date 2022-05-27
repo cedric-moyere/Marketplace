@@ -32,7 +32,7 @@ const Nav = () => {
           })}
           {current?.role === "admin" && (
             <li className="mr-4" key="Admin" onClick={() => {}}>
-              <Link to={`/Admin`}>Admin</Link>
+              <Link to={`/admin`}>Admin</Link>
             </li>
           )}
         </ul>

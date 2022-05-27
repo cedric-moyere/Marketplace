@@ -15,7 +15,6 @@ import Layout from "./Layout";
 
 const App = () => {
   const { current } = useSelector((state) => ({ ...state.user }));
-
   return (
     <Layout>
       <Route exact path="/" component={Home} />

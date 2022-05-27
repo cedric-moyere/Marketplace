@@ -3,6 +3,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import Nav from "./Nav";
 import Header from "./Header";
 import Footer from "./Footer";
+import BreadCrumbs from "./BreadCrumbs";
 
 const Layout = ({ children }) => (
   <Router>
@@ -10,6 +11,7 @@ const Layout = ({ children }) => (
       <div className="fixed-top">
         <Header />
         <Nav />
+        <BreadCrumbs />
       </div>
       {children}
       <div className="fixed-bottom">
