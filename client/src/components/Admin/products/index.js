@@ -4,45 +4,80 @@ import { useTable, useSortBy } from "react-table";
 import { fetchProducts } from "../../../lib/state/actions/products";
 import Create from "./create";
 import { Route, Link, Switch, useRouteMatch } from "react-router-dom";
+import EnhancedTable from "../../Shared/EnhancedTable";
 
 const Products = () => {
   const dispatch = useDispatch();
   const state = useSelector((state) => ({ ...state.products }));
+  const items = state.items[0]?.map((r) => {
+    return {
+      name: r.name,
+      description: r.description,
+      price: r.price,
+      inStock: r.inStock,
+      imageUrl: r.imageUrl,
+      category: r.category,
+    };
+  });
   React.useEffect(() => {
     if (!state.items[0]) {
       dispatch(fetchProducts());
     }
   }, [state.isLoading]);
-  const data = React.useMemo(() => state.items[0], [state.isLoading]) || [{}];
-  const columns = React.useMemo(
-    () =>
-      Object.getOwnPropertyNames(data[0])
-        .filter((name) => !name.includes("_"))
-        .map((c) => {
-          return { Header: `${c[0].toUpperCase()}${c.slice(1)}`, accessor: c };
-        }),
-    [state.isLoading]
-  );
-
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
+  const data = React.useMemo(() => items, [state.isLoading]) || [{}];
+  console.log("------------------------------");
+  console.log(data);
+  const columns = [
     {
-      columns,
-      data,
-      autoResetHiddenColumns: false,
-      autoResetSortBy: false,
-      autoResetPage: false,
+      id: 0,
+      label: "Name",
+      numeric: false,
+      disablePadding: true,
     },
-    useSortBy
-  );
+    {
+      id: 1,
+      label: "Description",
+      numeric: false,
+      disablePadding: true,
+    },
+    {
+      id: 2,
+      label: "Price",
+      numeric: true,
+      disablePadding: false,
+    },
+    {
+      id: 3,
+      label: "InStock",
+      numeric: false,
+      disablePadding: true,
+    },
+    {
+      id: 4,
+      label: "ImageUrl",
+      numeric: false,
+      disablePadding: true,
+    },
+    {
+      id: 5,
+      label: "Category",
+      numeric: false,
+      disablePadding: true,
+    },
+  ];
+  console.log(columns);
+  console.log("------------------------------");
+
   const { path, url } = useRouteMatch();
   return (
     <div className="col mt-2">
+      <EnhancedTable rows={data} columns={columns} />
+      <Link to={`${url}/create`}>
+        <button className="btn btn-primary">Create</button>
+      </Link>
       <Switch>
         <Route exact path={`${path}`}>
-          <Link to={`${url}/create`}>
-            <button className="btn btn-primary">Create</button>
-          </Link>
-          <table {...getTableProps()} className="table table-bordered table-striped table-hover">
+          {/* <table {...getTableProps()} className="table table-bordered table-striped table-hover">
             <thead>
               {headerGroups.map((headerGroup) => (
                 <tr {...headerGroup.getHeaderGroupProps()}>
@@ -81,11 +116,9 @@ const Products = () => {
                 );
               })}
             </tbody>
-          </table>
+          </table> */}
         </Route>
-        <Route path={`${path}/create`}>
-          <Create />
-        </Route>
+        <Route path={`${path}/create`} component={Create} />
       </Switch>
     </div>
   );
