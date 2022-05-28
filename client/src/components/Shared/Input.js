@@ -4,7 +4,6 @@ export const Text = ({
   label,
   name,
   type = "text",
-  col,
   placeholder,
   value,
   style,
@@ -124,19 +123,20 @@ export const Number = ({ col, value, min, max, label, name, onChange, children, 
     {children}
   </div>
 );
-export const File = (props) => (
-  <div className={`col-md-${props.col} col-md custom-file input-group mt-3`}>
+export const File = ({ id, accept, onChange, required, formref, label, children }) => (
+  <div className={`form-group col-md px-1`}>
     <input
-      id={props.id}
+      id={id}
       type="file"
+      accept={accept}
       className="custom-file-input"
-      onInput={props.onChange}
-      required={props.required}
-      {...props.formref}
+      onInput={onChange}
+      required={required}
+      {...formref}
     />
-    <label htmlFor={props.id} className="custom-file-label">
-      {props.label}
+    <label htmlFor={id} className="custom-file-label">
+      {label}
     </label>
-    {props.children}
+    {children}
   </div>
 );

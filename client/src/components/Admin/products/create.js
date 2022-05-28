@@ -16,6 +16,7 @@ const ErrorMessage = ({ error }) =>
   (error && <p className="text-danger">{error.message}</p>) || <></>;
 
 const Create = ({ history }) => {
+  const [fileName, setFileName] = React.useState("Image");
   const dispatch = useDispatch();
   const {
     register,
@@ -80,17 +81,21 @@ const Create = ({ history }) => {
                 children={<ErrorMessage error={errors.description} />}
               />
             </div>
-            <div className="form-row align-items-center">
+            <div className="form-row">
               <Input.Number
                 min="1"
                 label="Price"
                 formref={{ ...register("price", { required: "Price is required" }) }}
                 children={<ErrorMessage error={errors.price} />}
               />
+            </div>
+            <div className="form-row px-1">
               <Input.File
-                label="Image"
+                accept="image/*"
+                label={fileName}
                 formref={{ ...register("image", { required: "Image is required" }) }}
                 children={<ErrorMessage error={errors.image} />}
+                onChange={(e) => setFileName(e.target.files[0]?.name)}
               />
             </div>
             <div className="form-row">
