@@ -35,8 +35,12 @@ const Login = ({ history }) => {
   });
   const { email, password } = formValues["login"] ?? {};
   const { handleUserLogin } = useAuthentication(dispatch);
-  React.useEffect(() => validate(formValues["login"] ?? {}), [formValues, handleOnChange]);
-
+  React.useEffect(() => {
+    async function fetchData() {
+      await validate(formValues["login"] ?? {});
+    }
+    fetchData();
+  }, [formValues, handleOnChange]);
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     const user = await handleUserLogin(email, password);
