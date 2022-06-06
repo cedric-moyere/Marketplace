@@ -7,3 +7,9 @@ backend/node_modules/
 client/node_modules
 client/node_modules/
 client/.env
+devices/Marketplace/bin/
+devices/Marketplace/obj/
+devices/Marketplace.Android/bin/
+devices/Marketplace.Android/obj/
+devices/Marketplace.iOS/bin/
+devices/Marketplace.iOS/obj/
