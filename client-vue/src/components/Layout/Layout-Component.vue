@@ -1,18 +1,17 @@
 <template>
-  <div class="container p-5">
-    <Layout></Layout>
-    <router-view />
+  <div className="container">
+    <Nav></Nav>
   </div>
 </template>
 
 <script>
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
-import Layout from "./components/Layout/Layout-Component.vue";
+import Nav from "./Nav-Component.vue";
 
 export default {
   components: {
-    Layout
+    Nav
   }
 }
 </script>
