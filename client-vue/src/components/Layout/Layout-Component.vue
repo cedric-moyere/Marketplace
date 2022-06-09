@@ -1,5 +1,5 @@
 <template>
-  <div :style="{height: 'auto', overflow: 'auto'}">
+  <div :style="{ height: 'auto', overflow: 'auto' }">
     <Nav></Nav>
     <router-view />
   </div>
@@ -12,7 +12,7 @@ import Nav from "./Nav-Component.vue";
 
 export default {
   components: {
-    Nav
-  }
-}
+    Nav,
+  },
+};
 </script>
