@@ -1,6 +1,7 @@
 <template>
-  <div className="container">
+  <div :style="{height: 'auto', overflow: 'auto'}">
     <Nav></Nav>
+    <router-view />
   </div>
 </template>
 

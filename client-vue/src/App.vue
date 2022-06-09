@@ -1,8 +1,5 @@
 <template>
-  <div class="container p-5">
-    <Layout></Layout>
-    <router-view />
-  </div>
+  <Layout></Layout>
 </template>
 
 <script>
