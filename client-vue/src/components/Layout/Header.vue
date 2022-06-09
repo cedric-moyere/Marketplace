@@ -39,18 +39,3 @@
     </div>
   </nav>
 </template>
-
-<script>
-import { defineComponent } from "@vue/composition-api";
-import { ref } from "vue";
-
-export default defineComponent({
-  name: "Nav-component",
-  setup() {
-    const current = ref({});
-    const links = ["Home", "About"];
-
-    return { current, links };
-  },
-});
-</script>
