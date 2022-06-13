@@ -1,17 +1,28 @@
 import { createWebHistory, createRouter } from 'vue-router';
-import HomeComponent from '@/views/HomeComponent.vue';
-import AboutComponent from '@/views/AboutComponent.vue';
+import GalleryComponent from '../components/Home/Gallery-Component.vue';
+import AboutComponent from '../views/AboutView.vue';
+import CartComponent from '@/components/Cart/Cart-Component.vue';
+import NotFoundView from '@/views/NotFoundView.vue';
 
 const routes = [
   {
     path: '/',
-    name: 'HomeComponent',
-    component: HomeComponent
+    name: 'GalleryComponent',
+    component: GalleryComponent
   },
   {
     path: '/about',
     name: 'AboutComponent',
     component: AboutComponent
+  },
+  {
+    path: '/cart',
+    name: 'CartComponent',
+    component: CartComponent
+  },
+  {
+    path: '/:catchAll(.*)',
+    component: NotFoundView
   }
 ];
 

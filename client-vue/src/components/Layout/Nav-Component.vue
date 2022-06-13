@@ -1,5 +1,5 @@
 <template>
-  <nav class="fixed-top navbar navbar-expand-lg navbar-dark bg-primary">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
       <router-link class="navbar-brand" to="/">
         <b>AZ-Marketplace</b>
@@ -17,11 +17,8 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <router-link class="nav-link" to="/">Home</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/about">About</router-link>
+          <li v-for="link in links" v-bind:key="link" class="nav-item">
+            <router-link class="nav-link" :to="{ name: link.name }">{{ link.label }}</router-link>
           </li>
         </ul>
         <form class="d-flex">
@@ -34,16 +31,22 @@
 </template>
 
 <script>
+import { computed, ref } from 'vue';
+import { useStore } from 'vuex';
 import { defineComponent } from '@vue/composition-api';
-import { ref } from 'vue';
 
 export default defineComponent({
   name: 'Nav-component',
   setup() {
+    const store = useStore();
     const current = ref({});
-    const links = ['Home', 'About'];
+    const links = [
+      { name: 'GalleryComponent', label: 'Home' },
+      { name: 'AboutComponent', label: 'About' }
+    ];
+    const cartQuantity = computed(() => store.getters.cartQuantity);
 
-    return { current, links };
+    return { current, links, cartQuantity };
   }
 });
 </script>
